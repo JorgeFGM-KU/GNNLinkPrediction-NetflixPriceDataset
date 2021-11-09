@@ -132,3 +132,4 @@ dmypy.json
 venv/
 venv3.8/
 src/__pycache__/
+data/raw/
