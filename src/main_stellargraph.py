@@ -8,3 +8,4 @@ print(data)
 stellar_graph = generate_stellar_graph(data)
 print("--- STELLAR GRAPH ---")
 print(stellar_graph.info())
+
