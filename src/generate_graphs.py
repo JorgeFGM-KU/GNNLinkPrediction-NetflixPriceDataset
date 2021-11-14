@@ -22,15 +22,15 @@ def generate_stellar_graph(data: pd.DataFrame):
     return sg.StellarGraph({"user": users, "movie": movies}, data)
 
 def generate_dgl_graph(data: pd.DataFrame):
-    # We generate a graph with "user" nodes as source, edge types "rating" and
-    # "movie" nodes as destinations.
-    # We then add the score the users gave to the movies as a feature of the
+    # We generate a graph with "x" nodes as source, edge types "weight" and
+    # "y" nodes as destinations.
+    # We then add the weight value of x and y as a feature of the
     # edges of the graph.
-    graph_data =  {
-        ("user", "rating", "movie"): (data["user_id"], data["movie_id"])
+    graph_data = {
+        ("user_id", "weight", "dst_id"): (data["x"], data["y"])
     }
-
-    dgl_graph = dgl.heterograph(graph_data)
-    dgl_graph.edata["score"] = torch.tensor(data["score"].to_numpy())
-
+    x = data["x"].to_numpy()
+    y = data["y"].to_numpy()
+    dgl_graph = dgl.graph((x, y))
+    dgl_graph.edata["weight"] = torch.tensor(data["weight"].to_numpy())
     return dgl_graph
