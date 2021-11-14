@@ -26,9 +26,6 @@ def generate_dgl_graph(data: pd.DataFrame):
     # "y" nodes as destinations.
     # We then add the weight value of x and y as a feature of the
     # edges of the graph.
-    graph_data = {
-        ("user_id", "weight", "dst_id"): (data["x"], data["y"])
-    }
     x = data["x"].to_numpy()
     y = data["y"].to_numpy()
     dgl_graph = dgl.graph((x, y))
