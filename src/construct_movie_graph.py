@@ -16,18 +16,18 @@ def construct_movie_graph(dataset, threshold=3):
     global single_rate 
     global d
     
-    user_lists = []
+    user_lists = {}
     movies = dataset['movie_id'].unique()
+    movies.sort()
 
     for i in movies:
         user_lists_per_movies = dataset.loc[(dataset['movie_id']== i) & (dataset['score']>=threshold), 'user_id'].values
-        user_lists.append(user_lists_per_movies)
+        user_lists[i] = user_lists_per_movies
         
     
-    single_rate = [len(dataset[(dataset['movie_id']==i) & (dataset['score'] >= threshold)]) for i in range(0,499+1)]
-    d = reduce(lambda x,y: x+y, single_rate)
+    single_rate = { i:len(dataset[(dataset['movie_id']==i) & (dataset['score'] >= 3)]) for i in movies}
+    d = reduce(lambda x,y: x+y, single_rate.values())
 
-    movies = dataset['movie_id'].unique()
     movie_comb = [[x, y] for x in movies for y in movies if y > x]
             
     movie_graph = pd.DataFrame(movie_comb, columns=['x','y'])
