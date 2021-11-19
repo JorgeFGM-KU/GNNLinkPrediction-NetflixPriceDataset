@@ -8,6 +8,8 @@ def get_weighted_homogenous_graph(src_nodes, dst_nodes, weights, device='cpu'):
     graph = Data(edge_index=edge_index, edge_attr=weights).to(device)
     return graph
 
+# def get_weighted_heterogeneous_graph():
+
 def get_node2vec_embedding_matrix(
     graph,
     embedding_size=64,
