@@ -1,8 +1,6 @@
 import torch
-from torch._C import device
 from torch_geometric.data import Data
 from torch_geometric.nn.models import Node2Vec
-import pandas as pd
 
 def get_weighted_homogenous_graph(src_nodes, dst_nodes, weights, device='cpu'):
     edge_index = torch.tensor([src_nodes, dst_nodes], dtype=torch.long)
