@@ -22,12 +22,15 @@ def generate_stellar_graph(data: pd.DataFrame):
     return sg.StellarGraph({"user": users, "movie": movies}, data)
 
 def generate_dgl_graph(data: pd.DataFrame):
-    # We generate a graph with "x" nodes as source, edge types "weight" and
-    # "y" nodes as destinations.
-    # We then add the weight value of x and y as a feature of the
-    # edges of the graph.
-    x = data["x"].to_numpy()
-    y = data["y"].to_numpy()
-    dgl_graph = dgl.graph((x, y))
-    dgl_graph.edata["weight"] = torch.tensor(data["weight"].to_numpy())
+    # We generate a graph with "user_id" nodes as source, edge types "raiting" and "movie_id" nodes as destinations.
+    # Then, add the "raiting" values as weights of edges.
+    # + We may add some lines about embeddings of nodes after the embedding vector task is done.
+
+    # Our graph has 2 types of node (user type / movie type), so the graph is heterogeneous
+    graph_data = {
+        ('user_id', 'raiting', 'movie_id') : (data["user_id"], data["movie_id"]),
+        ('movie_id', 'raiting', 'user_id') : (data["user_id"], data["movie_id"])
+    }
+    dgl_graph = dgl.heterograph(graph_data)
+    dgl_graph.edata["raiting"] = torch.tensor(data["raiting"].to_numpy())
     return dgl_graph
